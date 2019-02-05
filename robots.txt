@@ -1,0 +1,4 @@
+User-Agent: *
+
+
+Sitemap: http://watchpaintdry.online/sitemap.xml
