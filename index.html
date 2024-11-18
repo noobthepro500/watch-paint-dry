@@ -26,6 +26,46 @@
   <meta property="og:url" content="https://www.jparcher.com/watch-paint-dry/" />
   <meta property="og:image" content="https://www.jparcher.com/watch-paint-dry/img/twditter-bg.png" />
   <meta property="og:description" content="Spend all day watching paint dry, because like you have anything better to do?" />
+<script>
+ var timer;
+ var ttlTimer; 
+ function incrementTimer() {
+  timer++;
+  document.getElementById("timerTHIS").innerHTML = parseInt(timer) - parseInt(ttlTimer);
+  setTimeout("incrementTimer()",1000);
+ }
+ 
+ function pageInit() {
+  var lnks = document.getElementsByTagName("a");
+  for (i = 0 ; i < lnks.length; i++) {
+   cLoc = lnks[i].href;
+   nLoc = "javascript:navigate('" + lnks[i] + "')";
+   lnks[i].href = nLoc;
+   
+  }
+  cLoc = window.location.href;
+  ra = cLoc.split('#');
+  if (ra.length > 1) {
+   timer = ra[1];
+  }
+  else {
+   timer = 0;
+  }
+ document.getElementById("timerTTL").innerHTML = timer;
+ ttlTimer = timer;
+ incrementTimer();
+ }
+ 
+ function navigate(strInput) {
+  window.location.href = strInput + "#" + timer;
+  return false;
+ }
+ </script>
+ </head>
+<body onLoad="pageInit();">
+
+ Total Seconds On This Page <span id="timerTHIS"></span><br />
+  <span id="timerTTL">
 </head>
 
 <body>
