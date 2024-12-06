@@ -64,9 +64,14 @@ setInterval(() => {
 
 // Cheat panel functionality
 document.addEventListener('keydown', (event) => {
-    if (event.ctrlKey && event.shiftKey && event.key === 'q') {
-        const cheatPanel = document.getElementById('cheat-panel');
-        cheatPanel.style.display = cheatPanel.style.display === 'none' ? 'block' : 'none';
+    if (event.ctrlKey && event.shiftKey && event.key === 'P') {
+        const password = prompt("Enter the cheat password:");
+        if (password === "hamburger") { // Replace 'yourPassword' with your desired password
+            const cheatPanel = document.getElementById('cheat-panel');
+            cheatPanel.style.display = cheatPanel.style.display === 'none' ? 'block' : 'none';
+        } else {
+            showMessage("Incorrect password!");
+        }
     }
 });
 
@@ -116,7 +121,7 @@ function loadGame() {
     }
 }
 
-// Load game state on page load
+// Load game state on page load ```javascript
 window.onload = () => {
     loadGame();
     renderItems();
