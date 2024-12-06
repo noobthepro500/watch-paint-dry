@@ -49,6 +49,7 @@ function buyItem(index) {
         incomePerSecond += item.income;
         showMessage(`You bought a ${item.name}!`);
         updateDisplay();
+        saveGame(); // Save the game after buying an item
     } else {
         showMessage("Not enough money!");
     }
@@ -58,6 +59,7 @@ function buyItem(index) {
 setInterval(() => {
     money += incomePerSecond;
     updateDisplay();
+    saveGame(); // Save the game every second
 }, 1000);
 
 // Cheat panel functionality
@@ -75,6 +77,7 @@ document.getElementById('add-coins-button').addEventListener('click', () => {
         money += cheatCoins;
         showMessage(`Added $${cheatCoins} to your balance!`);
         updateDisplay();
+        saveGame(); // Save the game after adding coins
     }
 });
 
@@ -85,9 +88,37 @@ document.getElementById('set-income-button').addEventListener('click', () => {
         incomePerSecond = cheatIncome;
         showMessage(`Income per second set to $${cheatIncome}!`);
         updateDisplay();
+        saveGame(); // Save the game after setting income
     }
 });
 
-// Initial rendering of items
-renderItems();
-updateDisplay();
+// Function to save game state to cookies
+function saveGame() {
+    const gameState = {
+        money: money,
+        itemsOwned: itemsOwned,
+        incomePerSecond: incomePerSecond
+    };
+    document.cookie = `gameState=${JSON.stringify(gameState)}; path=/; max-age=31536000`; // 1 year
+}
+
+// Function to load game state from cookies
+function loadGame() {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+        if (cookie.startsWith('gameState=')) {
+            const gameState = JSON.parse(cookie.split('=')[1]);
+            money = gameState.money;
+            itemsOwned = gameState.itemsOwned;
+            incomePerSecond = gameState.incomePerSecond;
+            break;
+        }
+    }
+}
+
+// Load game state on page load
+window.onload = () => {
+    loadGame();
+    renderItems();
+    updateDisplay();
+};
