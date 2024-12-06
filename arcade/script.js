@@ -1,12 +1,13 @@
 let money = 100;
 let itemsOwned = 0;
-const itemPrice = 10;
 let incomePerSecond = 0;
 
-document.getElementById('money').innerText = money;
-document.getElementById('items-owned').innerText = itemsOwned;
-document.getElementById('item-price').innerText = itemPrice;
-document.getElementById('income').innerText = incomePerSecond;
+// Predefined items (You can easily add more items here)
+const items = [
+    { name: "Widget", price: 10, income: 1 },
+    { name: "Gadget", price: 50, income: 5 },
+    { name: "Thingamajig", price: 100, income: 10 }
+];
 
 // Function to update the display
 function updateDisplay() {
@@ -24,37 +25,69 @@ function showMessage(msg) {
     }, 2000);
 }
 
-// Buy button event listener
-document.getElementById('buy-button').addEventListener('click', () => {
-    if (money >= itemPrice) {
-        money -= itemPrice;
+// Function to render items in the shop
+function renderItems() {
+    const itemList = document.getElementById('item-list');
+    itemList.innerHTML = ''; // Clear existing items
+    items.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item';
+        itemDiv.innerHTML = `
+            <span>${item.name} - $${item.price} (Income: $${item.income}/s)</span>
+            <button onclick="buyItem(${index})">Buy</button>
+        `;
+        itemList.appendChild(itemDiv);
+    });
+}
+
+// Function to buy an item
+function buyItem(index) {
+    const item = items[index];
+    if (money >= item.price) {
+        money -= item.price;
         itemsOwned++;
-        incomePerSecond += 1; // Increase income per second for each item owned
+        incomePerSecond += item.income;
+        showMessage(`You bought a ${item.name}!`);
         updateDisplay();
-        showMessage("You bought a paint bucket!");
     } else {
-        showMessage("Not enough money to buy!");
+        showMessage("Not enough money!");
     }
-});
+}
 
-// Sell button event listener
-document.getElementById('sell-button').addEventListener('click', () => {
-    if (itemsOwned > 0) {
-        money += itemPrice;
-        itemsOwned--;
-        incomePerSecond -= 1; // Decrease income per second for each item sold
-        updateDisplay();
-        showMessage("You sold a Widget !");
-    } else {
-        showMessage("You have no items to sell!");
-    }
-});
-
-// Income generation every second
+// Function to handle income generation
 setInterval(() => {
     money += incomePerSecond;
     updateDisplay();
 }, 1000);
 
-// Initial display update
+// Cheat panel functionality
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+        const cheatPanel = document.getElementById('cheat-panel');
+        cheatPanel.style.display = cheatPanel.style.display === 'none' ? 'block' : 'none';
+    }
+});
+
+// Add coins from cheat panel
+document.getElementById('add-coins-button').addEventListener('click', () => {
+    const cheatCoins = parseFloat(document.getElementById('cheat-coins').value);
+    if (!isNaN(cheatCoins)) {
+        money += cheatCoins;
+        showMessage(`Added $${cheatCoins} to your balance!`);
+        updateDisplay();
+    }
+});
+
+// Set income from cheat panel
+document.getElementById('set-income-button').addEventListener('click', () => {
+    const cheatIncome = parseFloat(document.getElementById('cheat-income').value);
+    if (!isNaN(cheatIncome)) {
+        incomePerSecond = cheatIncome;
+        showMessage(`Income per second set to $${cheatIncome}!`);
+        updateDisplay();
+    }
+});
+
+// Initial rendering of items
+renderItems();
 updateDisplay();
