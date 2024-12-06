@@ -64,7 +64,7 @@ setInterval(() => {
 
 // Cheat panel functionality
 document.addEventListener('keydown', (event) => {
-    if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+    if (event.ctrlKey && event.shiftKey && event.key === 'q') {
         const cheatPanel = document.getElementById('cheat-panel');
         cheatPanel.style.display = cheatPanel.style.display === 'none' ? 'block' : 'none';
     }
