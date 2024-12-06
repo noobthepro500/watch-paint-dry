@@ -53,3 +53,11 @@ button:hover {
     font-weight: bold;
     color: #dc3545;
 }
+
+.cheat-panel {
+    margin-top: 20px;
+    padding: 10px;
+    border: 2px solid #28a745;
+    border-radius: 5px;
+    background-color: #e9f5e9;
+}
