@@ -136,6 +136,6 @@ const detectedAdblock = async () => {
 
 detectedAdblock().then(result => {
     if (result) {
-        window.location.href = "./disable-adblock";
+        window.location.href = "./disable-adblock.html";
     }
 });
