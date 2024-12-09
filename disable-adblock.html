@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disable Ad Blocker</title>
+    <script>
+        // Function to check if an ad blocker is enabled
+        function checkAdBlocker() {
+            const adBlockerTest = document.createElement('div');
+            adBlockerTest.innerHTML = '&nbsp;';
+            adBlockerTest.className = 'adsbox';
+            document.body.appendChild(adBlockerTest);
+
+            // Check if the ad blocker has hidden the test element
+            window.setTimeout(function() {
+                if (adBlockerTest.offsetHeight === 0) {
+                    // Ad blocker is enabled
+                    document.getElementById('ad-blocker-message').style.display = 'block';
+                } else {
+                    // Ad blocker is disabled, redirect to homepage
+                    window.location.href = 'index.html';
+                }
+                adBlockerTest.remove();
+            }, 100);
+        }
+
+        // Call the function on page load
+        window.onload = checkAdBlocker;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #ad-blocker-message {
+            display: none;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ad Blocker Detected</h1>
+    <p id="ad-blocker-message">Please disable your ad blocker to access the site.</p>
+    <p>Once you have disabled it, you will be redirected to the homepage.</p>
+</body>
+</html>
